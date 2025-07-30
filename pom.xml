@@ -9,14 +9,14 @@
     <groupId>net.scicompj</groupId>
     <!-- artifactId is the name of the generated plugin. -->
     <!--  Maven recomendation is to use lower-case -->
-    <artifactId>plugin-template</artifactId>
+    <artifactId>homogenize-background</artifactId>
     <!-- The version should be updated for each release. The '-SNAPSHOT' suffix
     indicates a non-stable version. -->
     <version>0.0.1-SNAPSHOT</version>
 
     <!-- Name and description of the plugin: use what you want -->
-    <name>Plugin Template</name>
-    <description>Simple plugin template</description>
+    <name>Homogenize Background</name>
+    <description>Mave background values more uniform by removing large-scale variations</description>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -36,6 +36,13 @@
             <version>4.13.1</version>
             <scope>test</scope>
         </dependency>
+        
+        <dependency>
+          <groupId>gov.nist.math</groupId>
+          <artifactId>jama</artifactId>
+          <version>1.0.3</version>
+        </dependency>
+    
 
     </dependencies>
 
