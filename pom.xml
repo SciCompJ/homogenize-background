@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <!-- The three next items are mandatory for maven management -->
+    <!-- The group ID can match the package hierarchy of the plugin -->
+    <groupId>net.scicompj</groupId>
+    <!-- artifactId is the name of the generated plugin. -->
+    <!--  Maven recomendation is to use lower-case -->
+    <artifactId>plugin-template</artifactId>
+    <!-- The version should be updated for each release. The '-SNAPSHOT' suffix
+    indicates a non-stable version. -->
+    <version>0.0.1-SNAPSHOT</version>
+
+    <!-- Name and description of the plugin: use what you want -->
+    <name>Plugin Template</name>
+    <description>Simple plugin template</description>
+
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <!-- Use a recent long-term version of Java --> 
+        <maven.compiler.source>21</maven.compiler.source>
+        <maven.compiler.target>21</maven.compiler.target>
+    </properties>
+
+    <!-- The list of dependencies of the project. -->
+    <!-- Other dependencies can be added manually from IDE settings. -->
+    <dependencies>
+
+        <!-- Add a dependency to JUnit for unit tests -->
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.13.1</version>
+            <scope>test</scope>
+        </dependency>
+
+    </dependencies>
+
+
+    <build>
+        <resources>
+            <resource>
+                <directory>${basedir}/src/main/resources</directory>
+            </resource>
+            <resource>
+                <directory>${project.build.sourceDirectory}</directory>
+            </resource>
+        </resources>
+
+        <testResources>
+            <testResource>
+                <directory>${basedir}/src/test/resources</directory>
+            </testResource>
+            <testResource>
+                <directory>${project.build.testSourceDirectory}</directory>
+            </testResource>
+        </testResources>
+
+    </build>
+
+    <!-- The list of developers involved in the project -->
+    <developers>
+        <developer>
+            <id>dlegland</id>
+            <name>David Legland</name>
+            <email>david.legland@inrae.fr</email>
+            <organization>INRAE</organization>
+            <roles>
+                <role>architect</role>
+                <role>developer</role>
+            </roles>
+        </developer>
+    </developers>
+
+</project>
