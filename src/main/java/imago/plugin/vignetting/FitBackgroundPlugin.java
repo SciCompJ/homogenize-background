@@ -2,13 +2,13 @@ package imago.plugin.vignetting;
 
 import java.util.Collection;
 
-import imago.app.ImageHandle;
 import imago.app.ImagoApp;
-import imago.gui.FramePlugin;
 import imago.gui.GenericDialog;
 import imago.gui.ImagoFrame;
 import imago.gui.ImagoGui;
-import imago.gui.image.ImageFrame;
+import imago.image.ImageFrame;
+import imago.image.ImageHandle;
+import imago.image.plugin.ImageFramePlugin;
 import net.sci.array.Array;
 import net.sci.array.Arrays;
 import net.sci.array.binary.BinaryArray;
@@ -22,7 +22,7 @@ import net.sci.image.Image;
  * 
  * @author David Legland
  */
-public class FitBackgroundPlugin implements FramePlugin
+public class FitBackgroundPlugin implements ImageFramePlugin
 {
     /*
      * (non-Javadoc)
