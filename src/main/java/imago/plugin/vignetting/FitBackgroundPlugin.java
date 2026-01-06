@@ -8,7 +8,7 @@ import imago.gui.ImagoFrame;
 import imago.gui.ImagoGui;
 import imago.image.ImageFrame;
 import imago.image.ImageHandle;
-import imago.image.plugin.ImageFramePlugin;
+import imago.image.plugins.ImageFramePlugin;
 import net.sci.array.Array;
 import net.sci.array.Arrays;
 import net.sci.array.binary.BinaryArray;
