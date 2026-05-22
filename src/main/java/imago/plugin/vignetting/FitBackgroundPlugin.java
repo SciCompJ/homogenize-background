@@ -15,10 +15,12 @@ import net.sci.array.Arrays;
 import net.sci.array.binary.Binary;
 import net.sci.array.binary.BinaryArray;
 import net.sci.array.binary.BinaryArray2D;
+import net.sci.array.numeric.Float32Array2D;
 import net.sci.array.numeric.Scalar;
 import net.sci.array.numeric.ScalarArray;
 import net.sci.array.numeric.ScalarArray2D;
 import net.sci.image.Image;
+import net.sci.image.ImageType;
 
 /**
  * Fit a polynomial surface to the background of an image.
@@ -54,6 +56,7 @@ public class FitBackgroundPlugin implements ImageFramePlugin
         gd.addChoice("Foreground Mask: ", imageNameArray, firstImageName);
         gd.addNumericField("Max Order: ", 2, 0);
         gd.addNumericField("Sampling Step: ", 2, 0);
+        gd.addCheckBox("Show Residual Map", true);
         
         // wait for user input
         gd.showDialog();
@@ -67,7 +70,9 @@ public class FitBackgroundPlugin implements ImageFramePlugin
         Image maskImage = ImageHandle.findFromName(app, gd.getNextChoice()).getImage();
         int maxOrder = (int) gd.getNextNumber();
         int samplingStep = (int) gd.getNextNumber();
-
+        boolean showResiduals = gd.getNextBoolean();
+        
+        
         // extract arrays and check dimensions
         Array<?> array = refImage.getData();
         Array<?> mask = maskImage.getData();
@@ -101,8 +106,19 @@ public class FitBackgroundPlugin implements ImageFramePlugin
         ScalarArray2D<?> bgFit = fitBackground(array2d, bgMask, maxOrder, samplingStep);
 
         Image result = new Image(bgFit, refImage);
-        result.setName(refImage.getName() + "-background");
+        result.setName(refImage.getName() + "-bgFit");
 
+        if (showResiduals)
+        {
+            ScalarArray2D<?> resid = residuals(bgFit, array2d, bgMask);
+            Image residImage = new Image(resid, ImageType.DIVERGING, refImage);
+            residImage.setName(refImage.getName() + "-bgFit-resid");
+            double[] valueRange = resid.finiteValueRange();
+            double maxAbsDiff = Math.max(valueRange[0], valueRange[1]);
+            residImage.getDisplaySettings().setDisplayRange(new double[] {-maxAbsDiff, maxAbsDiff});
+            ImageFrame.create(residImage, frame);
+        }
+        
         // add the image document to GUI
         ImageFrame.create(result, frame);
     }
@@ -120,4 +136,31 @@ public class FitBackgroundPlugin implements ImageFramePlugin
         pbg.setSamplingStep(samplingStep);
         return pbg.process(image, mask);
     }
+    
+    private static final ScalarArray2D<?> residuals(ScalarArray2D<?> fitted, ScalarArray2D<?> image, BinaryArray2D mask)
+    {
+        int sizeX = fitted.size(0);
+        int sizeY = fitted.size(1);
+
+        Float32Array2D res = Float32Array2D.create(sizeX, sizeY);
+
+        // iterate over pixels
+        for (int y = 0; y < sizeY; y++)
+        {
+            for (int x = 0; x < sizeX; x++)
+            {
+                if (mask.getBoolean(x, y))
+                {
+                    res.setValue(x, y, fitted.getValue(x, y) - image.getValue(x, y));
+                }
+                else
+                {
+                    res.setValue(x, y, Float.NaN);
+                }
+            }
+        }
+        
+        return res;
+    }
+
 }
