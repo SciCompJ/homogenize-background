@@ -56,7 +56,7 @@ public class FitBackgroundPlugin implements ImageFramePlugin
         // Creates the dialog
         GenericDialog gd = new GenericDialog(frame, "Fit Background");
         gd.addChoice("Image: ", imageNameArray, firstImageName);
-        gd.addChoice("Foreground Mask: ", imageNameArray, firstImageName);
+        gd.addChoice("Background Mask: ", imageNameArray, firstImageName);
         gd.addNumericField("Max Order: ", 2, 0);
         gd.addNumericField("Sampling Step: ", 2, 0);
         gd.addCheckBox("Show Residual Map", true);
@@ -107,7 +107,7 @@ public class FitBackgroundPlugin implements ImageFramePlugin
         }
         
         frame.algoStatusChanged(new AlgoEvent(this, "Start Vignetting removal"));
-        BinaryArray2D bgMask = BinaryArray2D.wrap((BinaryArray.wrap(mask)).complement());
+        BinaryArray2D bgMask = BinaryArray2D.wrap((BinaryArray.wrap(mask)));
         
         Array<?> bgFit;
         frame.algoStatusChanged(new AlgoEvent(this, "Start Background normalization"));
